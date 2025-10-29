@@ -1,0 +1,45 @@
+package com.example.HospitalManagementSystem.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+
+import java.time.Instant;
+
+@Entity
+@Table(name = "prescriptions")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Prescription extends BaseEntity{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long prescriptionId;
+
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "appoinment_id",nullable = false,unique = true)
+    private Appoinment appoinment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
+
+    @Column(columnDefinition = "TEXT")
+    private String diagnosis;
+
+    @Column(columnDefinition = "TEXT")
+    private String medications;
+
+    private Instant issuedAt;
+
+    @PrePersist
+    public void onCreate() {
+        this.issuedAt = Instant.now();
+    }
+}
