@@ -27,7 +27,7 @@ public class Department extends BaseEntity{
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "head_doctor_id")
-    private Doctor doctor;
+    private Doctor headdoctor;
 
     @OneToMany(mappedBy = "department",fetch = FetchType.LAZY)
     private List<Doctor> doctors;

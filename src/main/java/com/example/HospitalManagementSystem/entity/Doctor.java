@@ -1,5 +1,7 @@
 package com.example.HospitalManagementSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -42,6 +44,7 @@ public class Doctor extends BaseEntity{
     private LocalTime availableTo;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("doctors")
     @JoinColumn(name = "department_id")
     private Department department;
 
