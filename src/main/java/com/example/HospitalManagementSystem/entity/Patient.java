@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "patients",indexes = {
@@ -20,8 +21,8 @@ import java.util.List;
 public class Patient extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long patientId;
+    @GeneratedValue
+    private UUID patientId;
 
     @OneToOne(fetch = FetchType.LAZY,optional = true)
     @JoinColumn(name = "user_id",unique = true)

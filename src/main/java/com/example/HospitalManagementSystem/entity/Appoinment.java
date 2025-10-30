@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Table(name = "appoinments")
@@ -17,8 +18,8 @@ import java.time.Instant;
 public class Appoinment extends BaseEntity{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long appoinmentId;
+    @GeneratedValue
+    private UUID appoinmentId;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "doctor_id",nullable = false)

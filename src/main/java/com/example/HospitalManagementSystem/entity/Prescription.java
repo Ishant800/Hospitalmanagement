@@ -5,6 +5,7 @@ import lombok.*;
 
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Table(name = "prescriptions")
@@ -15,8 +16,8 @@ import java.time.Instant;
 @Builder
 public class Prescription extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long prescriptionId;
+    @GeneratedValue
+    private UUID prescriptionId ;
 
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "appoinment_id",nullable = false,unique = true)

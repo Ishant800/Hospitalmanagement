@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "users",indexes = {
         @Index(name = "idx_users_username",columnList = "username")
