@@ -1,6 +1,8 @@
 package com.example.HospitalManagementSystem.entity;
 
 import com.example.HospitalManagementSystem.entity.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -26,9 +28,10 @@ public class Patient extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY,optional = true)
     @JoinColumn(name = "user_id",unique = true)
+    @JsonIgnoreProperties()
     private User user;
 
-    @Column(nullable = false,length = 150)
+    @Column(nullable = true,length = 150)
     private String name;
 
     private Integer age;

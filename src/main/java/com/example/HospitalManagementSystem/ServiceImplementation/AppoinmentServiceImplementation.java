@@ -9,11 +9,11 @@ import com.example.HospitalManagementSystem.repository.AppoinmentRepo;
 import com.example.HospitalManagementSystem.repository.DoctorRepo;
 import com.example.HospitalManagementSystem.repository.PatientRepo;
 import com.example.HospitalManagementSystem.service.AppoinmetService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +32,7 @@ public class AppoinmentServiceImplementation implements AppoinmetService {
     }
 
     @Override
-    @Transactional
+
     public Appoinment createAppoinment(AppoinmentDto dto) {
         Doctor doctor = doctorRepo.findById(dto.getDoctorId())
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
@@ -42,14 +42,20 @@ public class AppoinmentServiceImplementation implements AppoinmetService {
 
 //        System.out.println(patient);
 //        System.out.println(doctor);
-        Appoinment appoinment = Appoinment.builder()
-                .doctor(doctor)
-                .patient(patient)
-                .notes(dto.getNotes())
-                .status(AppoinmentStatus.valueOf(dto.getAppoinmentstatus().toUpperCase()))
-                .build();
-
-//        System.out.println(appoinment);
+//        Appoinment appoinment = Appoinment.builder()
+//                .doctor(doctor)
+//                .patient(patient)
+//                .notes(dto.getNotes())
+//                .status(AppoinmentStatus.valueOf(dto.getAppoinmentstatus().toUpperCase()))
+//                .appoinmentTime(Instant.now())
+//                .build();
+        Appoinment appoinment = new Appoinment();
+        appoinment.setDoctor(doctor);
+        appoinment.setPatient(patient);
+        appoinment.setNotes(dto.getNotes());
+        appoinment.setStatus(AppoinmentStatus.valueOf(dto.getAppoinmentstatus().toUpperCase()));
+        appoinment.setAppoinmentTime(Instant.now());
+        System.out.println(appoinment);
         return repo.save(appoinment);
     }
 

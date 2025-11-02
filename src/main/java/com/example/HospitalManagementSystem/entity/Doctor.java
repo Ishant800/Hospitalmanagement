@@ -25,7 +25,7 @@ public class Doctor extends BaseEntity{
     @JoinColumn(name = "user_id",nullable = false,unique = true)
     private User user;
 
-    @Column(nullable = false,length = 150)
+    @Column(nullable = true,length = 150)
     private String name;
 
     @Column(length = 150)

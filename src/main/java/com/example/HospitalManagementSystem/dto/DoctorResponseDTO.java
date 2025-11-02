@@ -1,4 +1,11 @@
 package com.example.HospitalManagementSystem.dto;
 
-public class DoctorResponseDTO {
-}
+import java.time.Instant;
+import java.util.UUID;
+
+public record DoctorResponseDTO (
+        Long doctorId,
+        String name,
+        String specialization
+
+) {}

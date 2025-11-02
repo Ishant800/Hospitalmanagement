@@ -12,7 +12,7 @@ public class PatientDto {
     private Long userId;
 
     private UUID patientId;
-private String email;
+    private String email;
     private String name;
     private Integer age;
     private String gender;

@@ -10,13 +10,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/auth/createuser")
+@RequestMapping("/auth")
 @CrossOrigin("*")
 public class UserController {
     @Autowired
     private UserService service;
 
-    @PostMapping
+
+
+
+    @PostMapping("/createuser")
     public ResponseEntity<User> createUser(@RequestBody UserDto dto){
         return ResponseEntity.ok(service.createUser(dto));
     }
@@ -26,6 +29,10 @@ public class UserController {
         return ResponseEntity.ok(service.getalluser());
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserDto dto){
+       return ResponseEntity.ok(service.login(dto));
+    }
     @GetMapping("/{id}")
     public ResponseEntity<User> getuseById(@PathVariable Long id){
         return ResponseEntity.ok(service.getUserById(id));

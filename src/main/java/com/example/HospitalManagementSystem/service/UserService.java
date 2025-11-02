@@ -32,6 +32,16 @@ public class UserService {
 
     }
 
+    public String login(UserDto dto){
+        User user = repo.findByUsername(dto.getUsername());
+        if(user == null){
+            return "user not found";
+        }
+        if(!encoder.matches(dto.getPassword(), user.getPassword())) return "invalid password";
+        return "user login sucessfully";
+
+    }
+
     public List<User> getalluser(){
         return repo.findAll();
     }

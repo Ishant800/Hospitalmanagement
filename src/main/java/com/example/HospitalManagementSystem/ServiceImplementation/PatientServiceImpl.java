@@ -1,6 +1,8 @@
 package com.example.HospitalManagementSystem.ServiceImplementation;
 
+import com.example.HospitalManagementSystem.Mapper.PatientMapper;
 import com.example.HospitalManagementSystem.dto.PatientDto;
+import com.example.HospitalManagementSystem.dto.PatientResponseDto;
 import com.example.HospitalManagementSystem.entity.Patient;
 import com.example.HospitalManagementSystem.entity.enums.Gender;
 import com.example.HospitalManagementSystem.repository.PatientRepo;
@@ -41,8 +43,9 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Patient getPatientById(UUID id) {
-        return patientRepo.findById(id).orElseThrow(()-> new RuntimeException("user not found please try again"));
+    public PatientResponseDto getPatientById(UUID id) {
+        Patient patient = patientRepo.findById(id).orElseThrow(()-> new RuntimeException("user not found please try again"));
+        return PatientMapper.toDto(patient);
     }
 
     @Override
@@ -65,9 +68,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public void deletePatient(UUID id) {
-
-        Patient patient = getPatientById(id);
-        patientRepo.delete(patient);
+        Patient patient = patientRepo.findById(id).orElseThrow(()-> new RuntimeException("patient not found "));
 
     }
 }

@@ -1,4 +1,10 @@
 package com.example.HospitalManagementSystem.dto;
 
-public class PatientSimpleDto {
-}
+import java.util.UUID;
+
+public record PatientSimpleDto(
+        UUID patientId,
+        String name,
+        String email,
+        String phone
+) { }

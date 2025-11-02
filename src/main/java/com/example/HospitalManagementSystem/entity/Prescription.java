@@ -2,8 +2,6 @@ package com.example.HospitalManagementSystem.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-
 import java.time.Instant;
 import java.util.UUID;
 
@@ -19,9 +17,12 @@ public class Prescription extends BaseEntity{
     @GeneratedValue
     private UUID prescriptionId ;
 
+
+
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "appoinment_id",nullable = false,unique = true)
-    private Appoinment appoinment;
+    @JoinColumn(name = "dappoinment_id",nullable = false,unique = true)
+    private DoctorAppointment dappoinment;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")

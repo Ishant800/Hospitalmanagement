@@ -1,6 +1,7 @@
 package com.example.HospitalManagementSystem.entity;
 
 import com.example.HospitalManagementSystem.entity.enums.AppoinmentStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -23,10 +24,12 @@ public class Appoinment extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "doctor_id",nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","user"})
     private Doctor doctor;
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "patient_id",nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","user"})
     private Patient patient;
 
     @NotNull
@@ -40,7 +43,6 @@ public class Appoinment extends BaseEntity{
     @Column(columnDefinition = "TEXT")
     private String notes;
 
-    @OneToOne(mappedBy = "appoinment",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
-    private Prescription prescription;
+
 
 }
