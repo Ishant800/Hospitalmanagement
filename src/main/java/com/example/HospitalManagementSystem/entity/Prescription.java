@@ -17,8 +17,6 @@ public class Prescription extends BaseEntity{
     @GeneratedValue
     private UUID prescriptionId ;
 
-
-
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "dappoinment_id",nullable = false,unique = true)
     private DoctorAppointment dappoinment;
