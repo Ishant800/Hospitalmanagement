@@ -1,22 +1,35 @@
 package com.example.HospitalManagementSystem.service;
 
+import com.example.HospitalManagementSystem.Jwt.Jwtservice;
+import com.example.HospitalManagementSystem.dto.LoginDto;
+import com.example.HospitalManagementSystem.dto.LoginResponseDto;
 import com.example.HospitalManagementSystem.dto.UserDto;
 import com.example.HospitalManagementSystem.entity.User;
 import com.example.HospitalManagementSystem.repository.UserRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
+@RequiredArgsConstructor
 @Service
 public class UserService {
-    @Autowired
-    private UserRepo repo;
+
+    private final UserRepo repo;
+    private final  AuthenticationManager authenticationManager;
+    private final Jwtservice jwtservice;
 
 
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private  final BCryptPasswordEncoder encoder;
 
     public User createUser(UserDto dto){
 
@@ -32,13 +45,28 @@ public class UserService {
 
     }
 
-    public String login(UserDto dto){
-        User user = repo.findByUsername(dto.getUsername());
+    public LoginResponseDto login(LoginDto dto){
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(dto.getUsername(),dto.getPassword())
+        );
+
+       var user = repo.findByUsername(dto.getUsername());
         if(user == null){
-            return "user not found";
+            return null;
         }
-        if(!encoder.matches(dto.getPassword(), user.getPassword())) return "invalid password";
-        return "user login sucessfully";
+        if(!encoder.matches(dto.getPassword(), user.getPassword())) return new LoginResponseDto("invalid password","");
+        Map<String , Object> extraClaims = new HashMap<>();
+        extraClaims.put("userId",user.getUserId());
+        extraClaims.put("role",user.getRole().name());
+
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                List.of(new SimpleGrantedAuthority(user.getRole().name()))
+        );
+        String token = jwtservice.generateToken(extraClaims,userDetails);
+
+        return new LoginResponseDto("login successfully",token);
 
     }
 
