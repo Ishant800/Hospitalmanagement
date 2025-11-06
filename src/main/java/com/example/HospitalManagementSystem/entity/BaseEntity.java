@@ -29,5 +29,8 @@ public class BaseEntity {
     @Column(name = "deleted",nullable = false)
     protected boolean deleted = false;
 
+    @Column(name = "isactive",nullable = false)
+    protected  boolean isactive = true;
+
 
 }

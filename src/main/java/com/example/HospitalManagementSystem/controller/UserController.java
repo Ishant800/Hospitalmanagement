@@ -4,12 +4,16 @@ import com.example.HospitalManagementSystem.dto.LoginDto;
 import com.example.HospitalManagementSystem.dto.LoginResponseDto;
 import com.example.HospitalManagementSystem.dto.UserDto;
 import com.example.HospitalManagementSystem.entity.User;
+import com.example.HospitalManagementSystem.entity.enums.Role;
 import com.example.HospitalManagementSystem.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -28,8 +32,18 @@ public class UserController {
     }
 
     @PostMapping("/createuser")
-    public ResponseEntity<User> createUser(@RequestBody UserDto dto){
-        return ResponseEntity.ok(service.createUser(dto));
+    public ResponseEntity<User> createUser(
+            @RequestParam("username") String username,
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            @RequestParam("role") String role,
+            @RequestParam(value = "profileImage",required = false)MultipartFile profileImage) throws IOException {
+        UserDto userDto = new UserDto();
+        userDto.setUsername(username);
+        userDto.setEmail(email);
+        userDto.setPassword(password);
+        userDto.setRole(Role.valueOf(role));
+        return ResponseEntity.ok(service.createUser(userDto,profileImage));
     }
 
     @GetMapping("/users")

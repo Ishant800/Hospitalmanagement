@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/doctor/profile")
+@RequestMapping("/api/doctor")
 public class DoctorController {
     @Autowired
     private DoctorService service;

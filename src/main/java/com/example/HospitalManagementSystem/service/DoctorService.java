@@ -25,10 +25,11 @@ public class DoctorService {
         User user = userRepo.findById(dto.getUserId()).orElseThrow(()-> new RuntimeException("user not found please create user account first!"));
 
         Department department = departmentRepo.findById(dto.getDeptId()).orElseThrow(()-> new RuntimeException("department not exists"));
+
         Doctor doctor = new Doctor();
-        doctor.setEmail(dto.getEmail());
-        doctor.setName(dto.getName());
         doctor.setPhone(dto.getPhone());
+        doctor.setExperienceYears(dto.getExperienceYears());
+        doctor.setBio(dto.getBio());
         doctor.setQualification(dto.getQualification());
         doctor.setSpecialization(dto.getSpecialization());
         doctor.setUser(user);

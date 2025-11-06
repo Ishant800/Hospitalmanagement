@@ -2,6 +2,7 @@ package com.example.HospitalManagementSystem.entity;
 
 import com.example.HospitalManagementSystem.entity.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -23,6 +24,11 @@ public class User extends BaseEntity{
     @Column(unique = true,nullable = false,length = 100)
     @NotBlank
     private String username;
+
+    private String profileImage;
+
+    @Email
+    private String email;
 
     @Column(nullable = false)
     @NotBlank

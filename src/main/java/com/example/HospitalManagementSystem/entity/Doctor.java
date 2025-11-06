@@ -25,17 +25,12 @@ public class Doctor extends BaseEntity{
     @JoinColumn(name = "user_id",nullable = false,unique = true)
     private User user;
 
-    @Column(nullable = true,length = 150)
-    private String name;
-
     @Column(length = 150)
     private String specialization;
 
     @Column(length = 150)
     private String qualification;
 
-    @Email
-    private String email;
 
     @Column(length = 20)
     private String phone;
@@ -47,6 +42,11 @@ public class Doctor extends BaseEntity{
     @JsonIgnoreProperties("doctors")
     @JoinColumn(name = "department_id")
     private Department department;
+
+    @Column(length = 1000)
+    private String bio;
+
+    private Integer experienceYears;
 
 //    @OneToMany(mappedBy = "doctor",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
 //    private List<Appoinment> appoinments;
