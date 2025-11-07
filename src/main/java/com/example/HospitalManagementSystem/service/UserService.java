@@ -9,6 +9,7 @@ import com.example.HospitalManagementSystem.entity.User;
 import com.example.HospitalManagementSystem.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -91,4 +92,12 @@ public class UserService {
     public User getUserById(Long id){
         return repo.findById(id).orElseThrow(()-> new RuntimeException("users not found"));
     }
+
+//    public String getOtp(LoginDto dto){
+//        User user = repo.findByUsername(dto.getEmail());
+//        if(user == null) throw new RuntimeException("email not found");
+//
+//
+//
+//    }
 }

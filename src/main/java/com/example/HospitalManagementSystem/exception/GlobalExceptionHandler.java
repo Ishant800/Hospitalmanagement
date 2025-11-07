@@ -1,31 +1,61 @@
 package com.example.HospitalManagementSystem.exception;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.time.Instant;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // handles business logic / runtime errors
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<?> handleRuntime(RuntimeException ex) {
-        Map<String, Object> err = new HashMap<>();
-        err.put("error", ex.getMessage());
-        err.put("status", HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+    private ResponseEntity<Apierror> build(HttpStatus status, String message, String path) {
+        return ResponseEntity.status(status).body(
+                Apierror.builder()
+                        .timestamp(Instant.now())
+                        .status(status.value())
+                        .error(status.getReasonPhrase())
+                        .message(message)
+                        .path(path)
+                        .build()
+        );
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Apierror> handleNotFound(ResourceNotFoundException ex, HttpServletRequest req) {
+        return build(HttpStatus.NOT_FOUND, ex.getMessage(), req.getRequestURI());
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Apierror> handleBadRequest(BadRequestException ex, HttpServletRequest req) {
+        return build(HttpStatus.BAD_REQUEST, ex.getMessage(), req.getRequestURI());
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<Apierror> handleUnauthorized(UnauthorizedException ex, HttpServletRequest req) {
+        return build(HttpStatus.UNAUTHORIZED, ex.getMessage(), req.getRequestURI());
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<Apierror> handleConflict(ConflictException ex, HttpServletRequest req) {
+        return build(HttpStatus.CONFLICT, ex.getMessage(), req.getRequestURI());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Apierror> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest req) {
+        String message = ex.getBindingResult().getFieldErrors()
+                .stream()
+                .map(e -> e.getField() + ": " + e.getDefaultMessage())
+                .collect(Collectors.joining(", "));
+        return build(HttpStatus.BAD_REQUEST, message, req.getRequestURI());
+    }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleException(Exception ex) {
-        Map<String, Object> err = new HashMap<>();
-        err.put("error", "Internal Server Error: " + ex.getMessage());
-        err.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        return new ResponseEntity<>(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Apierror> handleGeneric(Exception ex, HttpServletRequest req) {
+        ex.printStackTrace(); // only in dev, later replace with logger.error()
+        return build(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong. Try again later.", req.getRequestURI());
     }
 }

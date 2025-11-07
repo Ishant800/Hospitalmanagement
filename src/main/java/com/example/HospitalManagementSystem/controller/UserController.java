@@ -1,15 +1,20 @@
 package com.example.HospitalManagementSystem.controller;
 
+import com.example.HospitalManagementSystem.EmailService.EmailSender;
+import com.example.HospitalManagementSystem.Otp.OtpService;
 import com.example.HospitalManagementSystem.dto.LoginDto;
 import com.example.HospitalManagementSystem.dto.LoginResponseDto;
 import com.example.HospitalManagementSystem.dto.UserDto;
 import com.example.HospitalManagementSystem.entity.User;
 import com.example.HospitalManagementSystem.entity.enums.Role;
+import com.example.HospitalManagementSystem.repository.UserRepo;
 import com.example.HospitalManagementSystem.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +28,11 @@ import java.util.List;
 public class UserController {
 
     private final UserService service;
+    private final OtpService otpService;
+    private final EmailSender emailSender;
+    private final UserRepo userRepo;
+
+    private final BCryptPasswordEncoder encoder;
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/hello")
@@ -59,4 +69,27 @@ public class UserController {
     public ResponseEntity<User> getuseById(@PathVariable Long id){
         return ResponseEntity.ok(service.getUserById(id));
     }
+
+    @PostMapping("/generate-otp")
+    public ResponseEntity<String> generateOtp(@RequestParam String email){
+        String otp = otpService.generateOtp(email);
+        emailSender.sendOtp(email,otp);
+        return ResponseEntity.ok("Otp Sent to your mail");
+    }
+
+    @PostMapping("/verify-otp")
+    public ResponseEntity<String> verifyOtp(@RequestParam String email,@RequestParam String otp){
+        otpService.validateOtp(email,otp);
+        return ResponseEntity.ok("OTP verified successfully");
+    }
+
+    @PostMapping("/forgetpassword")
+    public ResponseEntity<String> forgetpassword(@RequestParam String confirmPassword){
+        User user = new User();
+        user.setPassword(encoder.encode(confirmPassword));
+         userRepo.save(user);
+        return ResponseEntity.ok("password update sucessfully");
+    }
+
+
 }

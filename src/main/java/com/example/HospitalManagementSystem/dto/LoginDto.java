@@ -3,11 +3,13 @@ package com.example.HospitalManagementSystem.dto;
 public class LoginDto {
     private String username;
     private String password;
+    private String email;
 
     public LoginDto(){}
-    public LoginDto(String username, String password){
+    public LoginDto(String username, String password,String email){
         this.username = username;
         this.password = password;
+        this.email = email;
     }
 
     public String getPassword() {
@@ -23,4 +25,7 @@ public class LoginDto {
     public void setUsername(String username){
         this.username = username;
     }
+
+    public String getEmail(){return email;}
+    public void setEmail(String email){this.email = email;}
 }
