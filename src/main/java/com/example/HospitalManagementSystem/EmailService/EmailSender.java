@@ -18,8 +18,10 @@ public class EmailSender {
         message.setFrom("ishantkarmacharya@gmail.com");
         message.setTo(toEmail);
         message.setSubject("OTP(One Time Password");
-        message.setText("Your otp is "+ otp);
-        message.setText("do not share with anyone ");
+        String body = "Your OTP is: " + otp + "\n\n" +
+                "Do not share this code with anyone.\n" +
+                "It expires in 5 minutes.";
+        message.setText(body);
 
         javaMailSender.send(message);
     }

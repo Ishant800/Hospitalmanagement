@@ -84,8 +84,11 @@ public class UserController {
     }
 
     @PostMapping("/forgetpassword")
-    public ResponseEntity<String> forgetpassword(@RequestParam String confirmPassword){
-        User user = new User();
+    public ResponseEntity<String> forgetpassword(@RequestParam String email,@RequestParam String confirmPassword){
+        User user = userRepo.findByEmail(email);
+        if(user == null){
+            throw new RuntimeException("user not exists");
+        }
         user.setPassword(encoder.encode(confirmPassword));
          userRepo.save(user);
         return ResponseEntity.ok("password update sucessfully");
