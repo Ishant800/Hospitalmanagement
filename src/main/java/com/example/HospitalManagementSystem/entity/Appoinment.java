@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Entity
@@ -34,11 +36,13 @@ public class Appoinment extends BaseEntity{
 
     @NotNull
     @Column(name = "appoinment_time",nullable = false)
-    private Instant appoinmentTime;
+    private LocalTime appoinmentTime;
+
+    private LocalDate date;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private AppoinmentStatus status;
+    private AppoinmentStatus status = AppoinmentStatus.PENDING;
 
     @Column(columnDefinition = "TEXT")
     private String notes;

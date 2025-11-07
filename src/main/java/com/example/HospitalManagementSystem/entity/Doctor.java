@@ -3,7 +3,6 @@ package com.example.HospitalManagementSystem.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.*;
 
 
@@ -23,6 +22,7 @@ public class Doctor extends BaseEntity{
 
     @OneToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "user_id",nullable = false,unique = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
     @Column(length = 150)
@@ -39,8 +39,8 @@ public class Doctor extends BaseEntity{
     private LocalTime availableTo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("doctors")
     @JoinColumn(name = "department_id")
+    @JsonIgnore
     private Department department;
 
     @Column(length = 1000)

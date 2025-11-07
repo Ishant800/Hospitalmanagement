@@ -5,10 +5,9 @@ import com.example.HospitalManagementSystem.entity.Appoinment;
 import com.example.HospitalManagementSystem.service.AppoinmetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/appointment")
@@ -21,9 +20,11 @@ public class AppoinmentController {
     }
 
     @PostMapping
-    public ResponseEntity<Appoinment> createAppoinment(@RequestBody AppoinmentDto dto){
-        Appoinment appoinment = appoinmetService.createAppoinment(dto);
-        System.out.println(appoinment);
-        return ResponseEntity.ok(appoinment);
+    public ResponseEntity<?> createAppointment(@RequestBody AppoinmentDto dto){
+        return ResponseEntity.ok(appoinmetService.createAppoinment(dto));
+    }
+    @GetMapping
+    public ResponseEntity<List<Appoinment>> getAppointmentByDoctor(@RequestParam Long doctorId){
+        return ResponseEntity.ok(appoinmetService.getAppointmentsByDoctor(doctorId));
     }
 }

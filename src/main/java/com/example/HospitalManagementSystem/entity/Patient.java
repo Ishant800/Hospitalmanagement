@@ -28,7 +28,7 @@ public class Patient extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY,optional = true)
     @JoinColumn(name = "user_id",unique = true)
-    @JsonIgnoreProperties()
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
     @Column(nullable = true,length = 150)
@@ -52,6 +52,8 @@ public class Patient extends BaseEntity {
     private LocalDate registeredAt;
 
     @OneToMany(mappedBy = "patient",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore
     private List<Appoinment> appoinments;
 
     @PrePersist

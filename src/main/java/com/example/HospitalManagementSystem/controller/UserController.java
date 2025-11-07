@@ -10,14 +10,12 @@ import com.example.HospitalManagementSystem.entity.enums.Role;
 import com.example.HospitalManagementSystem.repository.UserRepo;
 import com.example.HospitalManagementSystem.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -77,20 +75,22 @@ public class UserController {
         return ResponseEntity.ok("Otp Sent to your mail");
     }
 
-    @PostMapping("/verify-otp")
-    public ResponseEntity<String> verifyOtp(@RequestParam String email,@RequestParam String otp){
-        otpService.validateOtp(email,otp);
-        return ResponseEntity.ok("OTP verified successfully");
-    }
 
-    @PostMapping("/forgetpassword")
-    public ResponseEntity<String> forgetpassword(@RequestParam String email,@RequestParam String confirmPassword){
+    @PostMapping("/forgetPassword")
+    public ResponseEntity<String> forgetPassword(@RequestParam String email,@RequestParam String otp,@RequestParam String confirmPassword){
+        boolean validateOtp = otpService.validateOtp(email,otp);
+        if(!validateOtp) throw new RuntimeException("Invalid otp! ");
+
+
         User user = userRepo.findByEmail(email);
         if(user == null){
             throw new RuntimeException("user not exists");
         }
         user.setPassword(encoder.encode(confirmPassword));
          userRepo.save(user);
+
+         //delete otp from map(internal memory)
+         otpService.invalidOtp(email);
         return ResponseEntity.ok("password update sucessfully");
     }
 

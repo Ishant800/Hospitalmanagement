@@ -49,4 +49,8 @@ public class OtpService {
        return true;
     }
 
+    public void invalidOtp(String email){
+       otpStorage.remove(email);
+    }
+
 }
