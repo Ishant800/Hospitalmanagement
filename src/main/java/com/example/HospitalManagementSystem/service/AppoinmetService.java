@@ -12,7 +12,10 @@ public interface AppoinmetService {
     @Transactional
     Appoinment createAppoinment(AppoinmentDto dto);
 
+
     List<Appoinment> getAppointmentsByDoctor(Long doctorId);
     List<Appoinment> getAppointmentsByPatient(UUID patientId);
     Appoinment updateStatus(UUID id, AppoinmentStatus status);
+
+    List<Appoinment> getallAppointment();
 }

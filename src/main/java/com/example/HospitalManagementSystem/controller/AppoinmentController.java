@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/appointment")
+@CrossOrigin("*")
 public class AppoinmentController {
     private final AppoinmetService appoinmetService;
 
@@ -26,5 +27,9 @@ public class AppoinmentController {
     @GetMapping
     public ResponseEntity<List<Appoinment>> getAppointmentByDoctor(@RequestParam Long doctorId){
         return ResponseEntity.ok(appoinmetService.getAppointmentsByDoctor(doctorId));
+    }
+    @GetMapping("/all")
+    public ResponseEntity<List<Appoinment>> getallappointment(){
+        return ResponseEntity.ok(appoinmetService.getallAppointment());
     }
 }

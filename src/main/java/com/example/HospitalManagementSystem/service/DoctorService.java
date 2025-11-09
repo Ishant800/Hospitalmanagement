@@ -10,7 +10,10 @@ import com.example.HospitalManagementSystem.repository.DoctorRepo;
 import com.example.HospitalManagementSystem.repository.UserRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class DoctorService {
@@ -42,5 +45,9 @@ public class DoctorService {
 
         return repo.save(doctor);
 
+    }
+
+    public List<Doctor> getAlldoctors(){
+        return repo.findAll();
     }
 }

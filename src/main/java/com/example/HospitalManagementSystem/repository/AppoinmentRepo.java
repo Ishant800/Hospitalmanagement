@@ -12,4 +12,5 @@ public interface AppoinmentRepo extends JpaRepository<Appoinment, UUID> {
     List<Appoinment> findByDoctor_DoctorId(Long doctorId);
     List<Appoinment> findByPatient_PatientId(UUID patientId);
 
+
 }

@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/department")
+@RequestMapping("/api/department")
+@CrossOrigin("*")
 public class DepartmentController {
 
     @Autowired

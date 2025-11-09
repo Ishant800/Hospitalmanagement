@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/patients")
+@CrossOrigin("*")
 public class PatientController {
     private final PatientService patientService;
 
@@ -30,4 +32,8 @@ public class PatientController {
         return ResponseEntity.ok(patientService.getPatientById(id));
     }
 
+    @GetMapping
+    public ResponseEntity<List<Patient>> getallpatient(){
+        return ResponseEntity.ok(patientService.getAllPatients());
+    }
 }

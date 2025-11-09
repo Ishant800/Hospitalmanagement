@@ -10,12 +10,10 @@ import com.example.HospitalManagementSystem.repository.AppoinmentRepo;
 import com.example.HospitalManagementSystem.repository.DoctorRepo;
 import com.example.HospitalManagementSystem.repository.PatientRepo;
 import com.example.HospitalManagementSystem.service.AppoinmetService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -57,6 +55,7 @@ public class AppoinmentServiceImplementation implements AppoinmetService {
         return repo.save(appoinment);
     }
 
+
     @Override
     public List<Appoinment> getAppointmentsByDoctor(Long doctorId) {
         return repo.findByDoctor_DoctorId(doctorId);
@@ -72,5 +71,8 @@ public class AppoinmentServiceImplementation implements AppoinmetService {
         return null;
     }
 
-
+    @Override
+    public List<Appoinment> getallAppointment() {
+        return repo.findAll();
+    }
 }
