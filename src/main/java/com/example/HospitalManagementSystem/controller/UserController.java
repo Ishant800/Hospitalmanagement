@@ -93,5 +93,11 @@ public class UserController {
         return ResponseEntity.ok("password update sucessfully");
     }
 
+    @PostMapping("/{id}")
+    public ResponseEntity<String> updateRole(@PathVariable Long id){
+        service.upgradeToDoctor(id);
+        return ResponseEntity.ok("update sucessfully");
+    }
+
 
 }
