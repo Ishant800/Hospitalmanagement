@@ -44,13 +44,12 @@ public class UserController {
             @RequestParam("username") String username,
             @RequestParam("email") String email,
             @RequestParam("password") String password,
-            @RequestParam("role") String role,
             @RequestParam(value = "profileImage",required = false)MultipartFile profileImage) throws IOException {
         UserDto userDto = new UserDto();
         userDto.setUsername(username);
         userDto.setEmail(email);
         userDto.setPassword(password);
-        userDto.setRole(Role.valueOf(role));
+
         return ResponseEntity.ok(service.createUser(userDto,profileImage));
     }
 

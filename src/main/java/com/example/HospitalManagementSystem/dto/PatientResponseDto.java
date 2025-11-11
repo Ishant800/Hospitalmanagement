@@ -7,12 +7,12 @@ import java.util.UUID;
 
 public record PatientResponseDto(
         UUID patientId,
-        String name,
+
         Integer age,
         String gender,
         String phone,
         String address,
-        String email,
+
         LocalDate registeredAt,
         boolean deleted,
         Instant createdAt,

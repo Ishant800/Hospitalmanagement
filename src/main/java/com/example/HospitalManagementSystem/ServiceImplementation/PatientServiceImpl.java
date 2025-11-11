@@ -17,7 +17,6 @@ import java.util.UUID;
 public class PatientServiceImpl implements PatientService {
 
     private final PatientRepo patientRepo;
-
     private final UserRepo userRepo;
 
 
@@ -30,11 +29,8 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient createPatient(PatientDto patient) {
-
         Patient patient1 = new Patient();
         patient1.setUser(userRepo.findById(patient.getUserId()).get());
-        patient1.setName(patient.getName());
-        patient1.setEmail(patient.getEmail());
         patient1.setGender(Gender.valueOf(patient.getGender()));
         patient1.setPhone(patient.getPhone());
         patient1.setAddress(patient.getAddress());
@@ -57,8 +53,6 @@ public class PatientServiceImpl implements PatientService {
     public Patient updatePatient(UUID id, Patient patient) {
         Patient patient1 = patientRepo.findById(id).orElseThrow(()-> new RuntimeException("user not found"));
         Patient patient2 = new Patient();
-        patient2.setName(patient.getName());
-        patient2.setEmail(patient.getEmail());
         patient2.setPhone(patient.getPhone());
         patient2.setGender(patient.getGender());
         patient2.setAge(patient.getAge());

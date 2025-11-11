@@ -26,13 +26,10 @@ public class Patient extends BaseEntity {
     @GeneratedValue
     private UUID patientId;
 
-    @OneToOne(fetch = FetchType.LAZY,optional = true)
+    @OneToOne(fetch = FetchType.LAZY,optional = true,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id",unique = true)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
-
-    @Column(nullable = true,length = 150)
-    private String name;
 
     private Integer age;
 
@@ -46,12 +43,9 @@ public class Patient extends BaseEntity {
     @Column(length = 255)
     private String address;
 
-    @Email
-    private String email;
-
     private LocalDate registeredAt;
 
-    @OneToMany(mappedBy = "patient",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "patient",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 //    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
     private List<Appoinment> appoinments;
