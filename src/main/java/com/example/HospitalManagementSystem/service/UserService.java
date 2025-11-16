@@ -54,7 +54,7 @@ public class UserService {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setPassword(encoder.encode(dto.getPassword()));
-        user.setRole(Role.PATIENT);
+        user.setRole(dto.getRole());
         user.setEmail(dto.getEmail());
         user.setActive(true);
 
@@ -63,13 +63,13 @@ public class UserService {
             String imageUrl = uploadResult.get("secure_url").toString();
             user.setProfileImage(imageUrl);
         }
-        User saveddata = repo.save(user);
 
-        Patient patient = new Patient();
-        patient.setUser(user);
-        patientRepo.save(patient);
 
-        return saveddata;
+//        Patient patient = new Patient();
+//        patient.setUser(user);
+//        patientRepo.save(patient);
+
+        return  repo.save(user);
 
     }
 
